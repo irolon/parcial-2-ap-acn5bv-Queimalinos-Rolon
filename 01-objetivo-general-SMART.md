@@ -1,0 +1,35 @@
+# Objetivo General del Proyecto — FitTrainer
+
+> **Proyecto:** FitTrainer — Plataforma web + Android para personal trainers y sus alumnos
+> **Materia:** Administración de Proyectos — Comisión ACN5BV
+> **Profesor:** Sergio Medina
+> **Integrantes:** Pablo Queimaliños · Ignacio Rolón
+> **Versión:** v1.0 · **Fecha:** junio 2026
+
+---
+
+## Objetivo general
+
+Desarrollar el **MVP de FitTrainer**, una plataforma con dos clientes (aplicación web y aplicación móvil Android) que digitalice la relación entre el personal trainer y sus alumnos, permitiendo registrar alumnos, armar y asignar rutinas con asistencia de IA, registrar las sesiones de entrenamiento (incluso offline) y hacer seguimiento del progreso, sumando gamificación para mejorar la adherencia.
+
+---
+
+## Objetivo en formato SMART
+
+| Criterio | Detalle |
+|----------|---------|
+| **S — Específico** | Desarrollar el MVP de FitTrainer (web + Android) que permita al personal trainer registrar alumnos, armar y asignar rutinas con un asistente IA, y que el alumno registre sus sesiones y visualice su progreso. |
+| **M — Medible** | Completar las **4 milestones** del MVP: **24 historias de usuario** . Métrica de éxito: un PT puede dar de alta un alumno y asignarle su primera rutina en **menos de 5 minutos**, y el alumno registra una sesión completa **funcionando offline**. |
+| **A — Alcanzable** | Equipo de **2 desarrolladores full-stack** con un stack conocido (React, Kotlin/JAVA, Node.js/Express, Supabase/PostgreSQL), trabajando en **sprints de 2 semanas** durante 14 semanas. |
+| **R — Relevante** | Resuelve un dolor real del personal trainer independiente de LATAM (armado manual de rutinas en Excel/PDF y seguimiento improvisado por WhatsApp), con un producto **en español** y a **precio en pesos**. |
+| **T — Temporal** | **MVP en 10 semanas** (fases 1–3) y versión completa con IA y gamificación en **14 semanas**. |
+
+---
+
+## Enunciado SMART integrado
+
+> Desarrollar el MVP de FitTrainer (web + Android) — que permita registrar alumnos , armar rutinas asistidas por IA y registrar sesiones con seguimiento de progreso — completando 4 milestones (24 historias de usuario) con un equipo de 2 desarrolladores en sprints de 2 semanas, logrando que un PT dé de alta a un alumno y le asigne su primera rutina en menos de 5 minutos, con el MVP en 10 semanas y la versión completa en 14 semanas.
+
+---
+
+*Documento bajo control de versiones (gestión de la configuración). Este es el entregable v1.0 del proyecto.*
