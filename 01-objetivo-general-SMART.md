@@ -100,12 +100,11 @@ Kanban se apoya en un conjunto de prácticas centrales que el equipo aplica sobr
 | # | Práctica | Cómo la aplicamos en FitTrainer |
 |---|----------|----------------------------------|
 | 1 | **Visualizar el flujo de trabajo** | Tablero Kanban con columnas que representan el ciclo de vida de cada tarea: **Product Backlog → Por hacer (To Do) → En progreso → Code Review → Done**. Cada historia de usuario es una tarjeta. |
-| 2 | **Limitar el trabajo en curso (WIP)** | Se fija un límite de WIP en la columna *En progreso* (máx. **2 tarjetas**, una por desarrollador) para evitar la sobrecarga y forzar a terminar antes de empezar algo nuevo. |
+| 2 | **Limitar el trabajo en curso** | Se fija un límite de WIP en la columna *En progreso* (máx. **2 tarjetas**, una por desarrollador) para evitar la sobrecarga y forzar a terminar antes de empezar algo nuevo. |
 | 3 | **Gestionar el flujo** | Se observa el movimiento de las tarjetas para detectar cuellos de botella (p. ej., tarjetas estancadas en *Code Review*) y se actúa para destrabarlos. |
 | 4 | **Hacer explícitas las políticas** | Cada columna tiene una "definición de listo" clara (p. ej., una tarjeta pasa a *Done* solo con criterios de aceptación cumplidos y code review aprobado). |
-| 5 | **Sistema de extracción (pull)** | El trabajo no se empuja: cada desarrollador "tira" la siguiente tarjeta de mayor prioridad solo cuando se libera capacidad. |
-| 6 | **Bucles de feedback** | Reuniones breves de sincronización y una revisión del tablero para mejorar el proceso de forma continua. |
-| 7 | **Mejora colaborativa y evolutiva (Kaizen)** | El proceso se ajusta de manera incremental a partir de lo aprendido, sin reorganizaciones bruscas. |
+| 5 | **Bucles de feedback** | Reuniones breves de sincronización y una revisión del tablero para mejorar el proceso de forma continua. |
+| 6 | **Mejora colaborativa y evolutiva (Kaizen)** | El proceso se ajusta de manera incremental a partir de lo aprendido, sin reorganizaciones bruscas. |
 
 **Etiquetas de milestone:** además del flujo, las tarjetas se agrupan con etiquetas de color por milestone (M1 Onboarding & Auth, M2 Rutinas, M3 Sesiones, M4 IA & Gamificación) para visualizar el alcance por incremento.
 
