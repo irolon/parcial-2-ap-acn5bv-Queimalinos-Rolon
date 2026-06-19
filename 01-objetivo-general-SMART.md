@@ -4,7 +4,7 @@
 > **Materia:** Administración de Proyectos — Comisión ACN5BV
 > **Profesor:** Sergio Medina
 > **Integrantes:** Pablo Queimaliños · Ignacio Rolón
-> **Versión:** v3.0 · **Fecha:** junio 2026
+> **Versión:** v5.0 · **Fecha:** junio 2026
 
 ## Historial de versiones
 
@@ -13,6 +13,8 @@
 | v1.0 | Objetivo general del proyecto (SMART) | Equipo |
 | v2.0 | Se agrega el análisis de interesados y el perfil de 3 stakeholders | Equipo |
 | v3.0 | Se define la metodología de trabajo (Kanban): características y justificación | Equipo |
+| v4.0 | Se agrega el análisis de requerimientos: backlog priorizado e historias de usuario con criterios de aceptación | Equipo |
+| v5.0 | Se crea el tablero de seguimiento (Trello) y se incluye su enlace en el documento | Equipo |
 
 ---
 
@@ -129,4 +131,249 @@ Se eligió Kanban (por sobre Scrum u otros marcos) por las siguientes razones, a
 
 ---
 
-*Documento bajo control de versiones (gestión de la configuración). Entregable **v3.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban).*
+## Análisis de requerimientos — Historias de usuario
+
+Los requerimientos funcionales del sistema se expresan como **historias de usuario (HU)** con el formato *Como [tipo de usuario], quiero [acción], para [beneficio]*, cada una con sus **criterios de aceptación** y su **trazabilidad** al requerimiento funcional de origen. El backlog se prioriza por valor para el MVP y se organiza en cuatro fases incrementales.
+
+### Backlog inicial priorizado
+
+| HU | Funcionalidad | Actor | Prioridad | Fase |
+|------|---------------|-------|-----------|------|
+| HU-01 | Registro de personal trainer | PT | Alta | Fase 1 |
+| HU-02 | Generación de invitación  | PT | Alta | Fase 1 |
+| HU-03 | Onboarding del alumno vía link | Alumno | Alta | Fase 1 |
+| HU-04 | Panel de alumnos | PT | Alta | Fase 1 |
+| HU-05 | Perfil físico del alumno | PT | Alta | Fase 1 |
+| HU-06 | Armado y asignación de rutinas | PT | Alta | Fase 2 |
+| HU-07 | Plantillas de planes reutilizables | PT | Alta | Fase 2 |
+| HU-08 | Asistente IA para el armado de rutinas | PT | Alta | Fase 2 |
+| HU-09 | Biblioteca de ejercicios | PT | Media | Fase 2 |
+| HU-10 | Videos / GIFs de técnica | Alumno | Media | Fase 2 |
+| HU-11 | Ver rutina del día | Alumno | Alta | Fase 3 |
+| HU-12 | Registrar pesos y cargas en sesión | Alumno | Alta | Fase 3 |
+| HU-13 | Timer de descanso | Alumno | Alta | Fase 3 |
+| HU-14 | Asistente IA del alumno en sesión | Alumno | Alta | Fase 3 |
+| HU-15 | Modo offline para sesiones | Alumno | Alta | Fase 3 |
+| HU-16 | Historial de entrenamientos | Alumno | Alta | Fase 3 |
+| HU-17 | Registro de medidas corporales | Alumno | Media | Fase 3 |
+| HU-18 | Feedback post-entreno (RPE) | Alumno | Media | Fase 3 |
+| HU-19 | Seguimiento de progreso del alumno | PT | Alta | Fase 3 |
+| HU-20 | Notas y comentarios por sesión | PT | Media | Fase 3 |
+| HU-21 | Alertas de inactividad y modificaciones de rutina | PT | Alta | Fase 4 |
+| HU-22 | Gamificación: logros, rachas y desafíos | Alumno | Alta | Fase 4 |
+| HU-23 | Agenda y disponibilidad horaria | PT | Media | Fase 4 |
+| HU-24 | Mensajería interna | PT | Media | Fase 4 |
+
+> **Orden sugerido:** Fase 1 (autenticación, invitaciones y gestión de alumnos) → Fase 2 (biblioteca, rutinas y asistente IA del entrenador) → Fase 3 (sesiones, registro de cargas, asistente IA del alumno y seguimiento) → Fase 4 (alertas, gamificación, agenda y mensajería).
+
+### Historias de usuario y criterios de aceptación
+
+#### Fase 1 — Autenticación, invitaciones y gestión de alumnos
+
+**HU-01 — Registro de personal trainer** *[Alta]*
+*Como personal trainer, quiero crear mi cuenta con mis datos profesionales, para gestionar a mis alumnos desde la plataforma.*
+- El PT puede registrarse con nombre, email, contraseña y especialidad.
+- El sistema valida que el email no esté registrado previamente.
+- La contraseña debe tener un mínimo de 8 caracteres.
+- Puede subir una foto de perfil de forma opcional.
+- Al confirmar, se crea la cuenta y se inicia sesión automáticamente con JWT.
+- El registro es accesible tanto desde web como desde mobile.
+*Trazabilidad: PT-01 · Fase 1 · MVP*
+
+**HU-02 — Generación de invitación (WhatsApp / QR)** *[Alta]*
+*Como personal trainer, quiero generar una invitación única para cada alumno por WhatsApp o QR, para incorporarlo a la plataforma sin fricción.*
+- El PT genera la invitación cargando datos mínimos del alumno (nombre).
+- El sistema genera un token único de un solo uso, válido por 48 horas.
+- La invitación se comparte por WhatsApp (deep link wa.me) o como código QR descargable.
+- Un token ya usado o vencido no permite registrar otra cuenta.
+*Trazabilidad: PT-02 · Fase 1 · MVP*
+
+**HU-03 — Onboarding del alumno vía link o QR** *[Alta]*
+*Como alumno, quiero registrarme desde el link de WhatsApp o escaneando el QR, para quedar vinculado a mi entrenador en pocos pasos.*
+- Al abrir el link o escanear el QR, el alumno queda asociado automáticamente al PT que lo invitó.
+- Los datos precargados por el PT se muestran y el alumno solo debe elegir su contraseña.
+- El proceso completo se realiza en menos de 2 minutos sin ayuda externa.
+- Puede completarse indistintamente desde web o mobile.
+- Si el token está vencido, se muestra un mensaje claro y la opción de solicitar una nueva invitación.
+*Trazabilidad: AL-01 · Fase 1 · MVP*
+
+**HU-04 — Panel de alumnos** *[Alta]*
+*Como personal trainer, quiero ver un panel con todos mis alumnos, para hacer un seguimiento rápido de su estado y actividad.*
+- El panel muestra foto, nombre, objetivo, fecha de último entreno y alertas de inactividad.
+- Permite pasar de un alumno a otro en menos de 2 clics.
+- Diferencia visualmente a los alumnos activos de los inactivos.
+- Disponible en web (vista completa) y mobile (vista compacta).
+*Trazabilidad: PT-03 · Fase 1 · MVP*
+
+**HU-05 — Perfil físico del alumno** *[Alta]*
+*Como personal trainer, quiero registrar y ver los datos físicos del alumno, para adaptar el entrenamiento y medir su evolución.*
+- Permite cargar peso, talla, % de grasa corporal y circunferencias; el IMC se calcula automáticamente.
+- El PT puede actualizar los datos y consultar el histórico de evolución.
+- Accesible desde web o mobile.
+*Trazabilidad: PT-04 · Fase 1 · MVP*
+
+#### Fase 2 — Rutinas, biblioteca y asistente IA del entrenador
+
+**HU-06 — Armado y asignación de rutinas** *[Alta]*
+*Como personal trainer, quiero armar y asignar rutinas a mis alumnos, para entregarles un plan de entrenamiento estructurado.*
+- El PT crea la rutina con nombre, objetivo, días de la semana y ejercicios con series, reps, descanso, tempo y notas.
+- Puede partir de una plantilla (manual o generada por IA) o reutilizar la rutina de otro alumno.
+- La rutina asignada queda visible para el alumno según los días definidos.
+- Editable desde web (mejor experiencia de edición) y también desde mobile.
+*Trazabilidad: PT-05 · Fase 2 · MVP*
+
+**HU-07 — Plantillas de planes reutilizables** *[Alta]*
+*Como personal trainer, quiero guardar rutinas como plantillas reutilizables, para asignarlas rápidamente a otros alumnos.*
+- El PT puede guardar cualquier rutina como plantilla, clasificada por objetivo.
+- Al asignar una plantilla a un alumno, puede personalizarla sin modificar la original.
+- Las plantillas son privadas de cada PT.
+*Trazabilidad: PT-12 · Fase 2 · MVP*
+
+**HU-08 — Asistente IA para el armado de rutinas** *[Alta]*
+*Como personal trainer, quiero que un asistente de IA me proponga una rutina inicial, para reducir el tiempo de armado de cada plan.*
+- El PT indica objetivo, frecuencia, equipamiento, lesiones y nivel del alumno.
+- La IA (n8n + LLM) devuelve una rutina completa y editable.
+- El PT siempre revisa y edita antes de asignar; la rutina nunca se asigna de forma automática.
+- Si la IA no responde a tiempo, se muestra un mensaje con opción de reintentar y el PT puede armar la rutina a mano (fallback RNF-20).
+*Trazabilidad: PT-14 · Fase 2 · MVP*
+
+**HU-09 — Biblioteca de ejercicios** *[Media]*
+*Como personal trainer, quiero contar con una biblioteca de ejercicios con demostraciones, para construir rutinas más rápido y claras.*
+- Incluye un catálogo global más una biblioteca personalizada por PT.
+- Cada ejercicio tiene nombre, grupo muscular, equipamiento, descripción y video / GIF.
+- El PT puede agregar, editar y filtrar ejercicios por músculo y equipamiento.
+*Trazabilidad: PT-06 · Fase 2 · MVP*
+
+**HU-10 — Videos / GIFs de técnica** *[Media]*
+*Como alumno, quiero ver un video o GIF de cada ejercicio, para ejecutarlo con la técnica correcta.*
+- Cada ejercicio de la rutina puede mostrar su demostración.
+- El video es accesible desde la rutina del día y desde la biblioteca.
+- Disponible en web y mobile.
+*Trazabilidad: AL-09 · Fase 2 · MVP*
+
+#### Fase 3 — Sesiones, registro de cargas, asistente IA del alumno y seguimiento
+
+**HU-11 — Ver rutina del día** *[Alta]*
+*Como alumno, quiero ver qué rutina me toca hoy al abrir la app, para empezar a entrenar sin demoras.*
+- La pantalla principal muestra la rutina del día según los días asignados.
+- Si no hay rutina para hoy, muestra un mensaje y la próxima sesión programada.
+- La pantalla carga en menos de 2 segundos en conexión 4G (RNF-02).
+*Trazabilidad: AL-02 · Fase 3 · MVP*
+
+**HU-12 — Registrar pesos y cargas en sesión** *[Alta]*
+*Como alumno, quiero registrar el peso y las repeticiones de cada serie durante el entreno, para llevar un registro confiable de mis cargas.*
+- Por cada serie, el alumno carga el peso real y las reps completadas.
+- El sistema sugiere automáticamente el peso de la sesión anterior.
+- Registrar una serie requiere como máximo 3 taps desde la pantalla principal (RNF-13).
+- Si el alumno modifica algo de la rutina, el cambio queda registrado y se notifica al PT.
+*Trazabilidad: AL-03 · Fase 3 · MVP*
+
+**HU-13 — Timer de descanso** *[Alta]*
+*Como alumno, quiero contar con un timer de descanso entre series, para respetar los tiempos pautados en la rutina.*
+- Al completar una serie, inicia el timer con el descanso configurado para ese ejercicio.
+- Notifica cuando termina y permite saltarlo (skip).
+- Funciona en mobile aun cuando la pantalla se bloquee.
+*Trazabilidad: AL-04 · Fase 3 · MVP*
+
+**HU-14 — Asistente IA del alumno en sesión** *[Alta]*
+*Como alumno, quiero consultar un asistente de IA durante el entreno, para resolver dudas de técnica, sustituciones o calentamiento.*
+- Es un chat dentro de la sesión (n8n + LLM) con contexto de la rutina y el equipamiento disponible.
+- Responde sustituciones de ejercicios, dudas de técnica, calentamiento y prevención de lesiones.
+- El 95% de las respuestas llegan en menos de 10 segundos (RNF-04).
+- Solo está disponible online; sin conexión se deshabilita con un aviso (RNF-19).
+*Trazabilidad: AL-05 · Fase 3 · MVP*
+
+**HU-15 — Modo offline para sesiones** *[Alta]*
+*Como alumno, quiero entrenar y registrar mi sesión sin conexión, para no perder datos en gimnasios con mala señal.*
+- La rutina del día se cachea localmente al menos 24 horas antes.
+- El alumno puede registrar la sesión completa sin conexión.
+- Al recuperar internet, los datos se sincronizan en menos de 5 segundos sin pérdida de información (RNF-03).
+- El asistente IA se deshabilita con aviso mientras no haya conexión.
+*Trazabilidad: AL-10 · Fase 3 · MVP*
+
+**HU-16 — Historial de entrenamientos** *[Alta]*
+*Como alumno, quiero ver mi historial de sesiones y mi progreso, para comprobar mi evolución a lo largo del tiempo.*
+- Lista las sesiones pasadas con los pesos y reps por ejercicio.
+- Muestra gráficos de progresión de cargas y de volumen total.
+- Mejor visualización gráfica en web; resumen en mobile.
+*Trazabilidad: AL-06 · Fase 3 · MVP*
+
+**HU-17 — Registro de medidas corporales** *[Media]*
+*Como alumno, quiero registrar mi peso y mis medidas periódicamente, para seguir mi evolución física.*
+- El alumno registra su peso; si el PT lo habilita, también puede registrar medidas.
+- El histórico se presenta en gráficos de evolución.
+*Trazabilidad: AL-07 · Fase 3 · MVP*
+
+**HU-18 — Feedback post-entreno (RPE)** *[Media]*
+*Como alumno, quiero dejar un feedback al terminar la sesión, para que mi entrenador sepa cómo me sentí.*
+- Al cerrar la sesión, el alumno indica el esfuerzo percibido (escala RPE 1 a 10) y una nota libre opcional.
+- El feedback se muestra en el dashboard del PT.
+*Trazabilidad: AL-08 · Fase 3 · MVP*
+
+**HU-19 — Seguimiento de progreso del alumno** *[Alta]*
+*Como personal trainer, quiero ver el progreso de cada alumno, para ajustar el plan con datos reales.*
+- Muestra el historial de sesiones y gráficos de progresión por ejercicio, evolución de peso y medidas.
+- Incluye las modificaciones de rutina y los comentarios por sesión.
+- La mejor visualización gráfica está en la web.
+*Trazabilidad: PT-07 · Fase 3 · MVP*
+
+**HU-20 — Notas y comentarios por sesión** *[Media]*
+*Como personal trainer, quiero comentar las sesiones de mis alumnos, para darles feedback personalizado.*
+- El PT puede dejar comentarios en cada sesión completada del alumno.
+- El alumno ve esos comentarios en su historial.
+- Disponible desde web o mobile.
+*Trazabilidad: PT-08 · Fase 3 · MVP*
+
+#### Fase 4 — Funcionalidades avanzadas (alertas, gamificación, agenda y mensajería)
+
+**HU-21 — Alertas de inactividad y modificaciones de rutina** *[Alta]*
+*Como personal trainer, quiero recibir alertas cuando un alumno está inactivo o modifica su rutina, para intervenir a tiempo.*
+- Notifica si el alumno no registra entrenamientos durante N días.
+- Notifica cuando un alumno modifica series, reps o peso, o sustituye un ejercicio.
+- Las notificaciones llegan a la web (Web Push) y a la mobile (Firebase Cloud Messaging).
+*Trazabilidad: PT-09 · Fase 4 · MVP*
+
+**HU-22 — Gamificación: logros, rachas y desafíos** *[Alta]*
+*Como alumno, quiero ganar logros, sostener rachas y completar desafíos, para mantenerme motivado y constante.*
+- Las rachas se calculan a partir del historial de días entrenados consecutivos.
+- Se desbloquean badges por hitos (primer PR, N semanas, N sesiones).
+- El PT puede asignar desafíos personalizados.
+- Visible para alumno y PT en ambas plataformas.
+*Trazabilidad: AL-11 · Fase 4 · MVP*
+
+**HU-23 — Agenda y disponibilidad horaria** *[Media]*
+*Como personal trainer, quiero cargar mi disponibilidad horaria, para que los alumnos puedan solicitar turno.*
+- El PT carga sus horarios disponibles en una vista de calendario semanal.
+- Los alumnos pueden solicitar un turno desde la app.
+- El PT acepta o rechaza cada solicitud.
+*Trazabilidad: PT-11 · Fase 4 · MVP*
+
+**HU-24 — Mensajería interna** *[Media]*
+*Como personal trainer, quiero chatear con mis alumnos dentro de la app, para centralizar la comunicación.*
+- Chat uno a uno entre PT y alumno, con soporte de texto e imágenes.
+- El PT puede enviar un mensaje a múltiples alumnos (broadcast).
+- Disponible en web y mobile.
+*Trazabilidad: PT-13 · Fase 4 · MVP*
+
+---
+
+## Tablero de seguimiento
+
+El seguimiento del proyecto se realiza en un **tablero de Trello**, que materializa el flujo Kanban descripto en la metodología. Cada historia de usuario es una tarjeta que avanza por las columnas del tablero, agrupada por fase mediante etiquetas de color.
+
+**🔗 Enlace al tablero:** https://trello.com/b/OPDghdCH/fittrainer-parcial-2-administraci%C3%B3n-de-proyectos
+
+### Estructura del tablero
+
+| Aspecto | Detalle |
+|---------|---------|
+| Herramienta | Trello |
+| Columnas (flujo Kanban) | Product Backlog · Sprint Backlog (To Do) · En progreso · Code Review · Done |
+| Etiquetas (fases / milestones) | Fase 1 — Autenticación, invitaciones y gestión de alumnos · Fase 2 — Rutinas, biblioteca e IA del entrenador · Fase 3 — Sesiones, tracking e IA del alumno · Fase 4 — Funcionalidades avanzadas |
+| Ítems | 24 historias de usuario (HU-01 a HU-24), cada una con historia, criterios de aceptación, trazabilidad y responsable |
+| Miembros | Ignacio Rolón · Pablo Queimaliños |
+
+
+---
+
+*Documento bajo control de versiones (gestión de la configuración). Entregable **v5.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento.*
