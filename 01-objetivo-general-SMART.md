@@ -4,7 +4,7 @@
 > **Materia:** Administración de Proyectos — Comisión ACN5BV
 > **Profesor:** Sergio Medina
 > **Integrantes:** Pablo Queimaliños · Ignacio Rolón
-> **Versión:** v5.0 · **Fecha:** junio 2026
+> **Versión:** v6.0 · **Fecha:** junio 2026
 
 ## Historial de versiones
 
@@ -15,6 +15,7 @@
 | v3.0 | Se define la metodología de trabajo (Kanban): características y justificación | Equipo |
 | v4.0 | Se agrega el análisis de requerimientos: backlog priorizado e historias de usuario con criterios de aceptación | Equipo |
 | v5.0 | Se crea el tablero de seguimiento (Trello) y se incluye su enlace en el documento | Equipo |
+| v6.0 | Se definen los milestones del proyecto y las historias de usuario que agrupa cada uno | Equipo |
 
 ---
 
@@ -108,7 +109,7 @@ Kanban se apoya en un conjunto de prácticas centrales que el equipo aplica sobr
 | 5 | **Bucles de feedback** | Reuniones breves de sincronización y una revisión del tablero para mejorar el proceso de forma continua. |
 | 6 | **Mejora colaborativa y evolutiva (Kaizen)** | El proceso se ajusta de manera incremental a partir de lo aprendido, sin reorganizaciones bruscas. |
 
-**Etiquetas de milestone:** además del flujo, las tarjetas se agrupan con etiquetas de color por milestone (M1 Onboarding & Auth, M2 Rutinas, M3 Sesiones, M4 IA & Gamificación) para visualizar el alcance por incremento.
+**Etiquetas de milestone:** además del flujo, las tarjetas se agrupan con etiquetas de color por milestone — una por cada fase del backlog (Fase 1 a Fase 4) — para visualizar el alcance por incremento. El detalle de cada milestone se desarrolla más abajo, en la sección *Milestones e historias de usuario*.
 
 **Métricas de Kanban que se siguen:**
 
@@ -376,4 +377,46 @@ El seguimiento del proyecto se realiza en un **tablero de Trello**, que material
 
 ---
 
-*Documento bajo control de versiones (gestión de la configuración). Entregable **v5.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento.*
+## Milestones e historias de usuario
+
+El alcance del MVP se organiza en **4 milestones** incrementales, que se corresponden con las cuatro fases del backlog y con las cuatro etiquetas de color del tablero de Trello. Cada milestone agrupa un conjunto de historias de usuario  y define un **objetivo de cierre (Definition of Done)** que entrega valor utilizable de punta a punta.
+
+> Las historias de usuario que componen cada milestone ya fueron desarrolladas en detalle —con sus criterios de aceptación y trazabilidad— en la sección *Análisis de historias de usuario*. Aquí se las referencia por su identificador para no duplicar la información.
+
+### Milestone 1 — Autenticación, invitaciones y gestión de alumnos
+
+- **Objetivo (Definition of Done):** el personal trainer puede registrarse, iniciar sesión y generar una invitación funcional; el alumno la usa y queda vinculado automáticamente, y el PT gestiona el panel y el perfil físico de sus alumnos.
+- **Valor entregado:** queda resuelto todo el flujo de alta y vinculación PT ↔ Alumno, base de todo el sistema.
+- **Historias de usuario (5):** HU-01 Registro de personal trainer · HU-02 Generación de invitación (WhatsApp/QR) · HU-03 Onboarding del alumno vía link o QR · HU-04 Panel de alumnos · HU-05 Perfil físico del alumno.
+
+### Milestone 2 — Rutinas, biblioteca e IA del entrenador
+
+- **Objetivo (Definition of Done):** el PT puede construir y asignar una rutina (manualmente, desde plantilla o con asistencia de la IA) apoyándose en la biblioteca de ejercicios con sus demostraciones.
+- **Valor entregado:** el entrenador ya puede entregar un plan de entrenamiento estructurado, con el diferenciador del asistente IA.
+- **Historias de usuario (5):** HU-06 Armado y asignación de rutinas · HU-07 Plantillas de planes reutilizables · HU-08 Asistente IA para el armado de rutinas · HU-09 Biblioteca de ejercicios · HU-10 Videos / GIFs de técnica.
+
+### Milestone 3 — Sesiones, tracking e IA del alumno
+
+- **Objetivo (Definition of Done):** el alumno ejecuta una sesión completa (incluso offline), registra cargas por serie con timer y asistente IA, consulta su historial y deja feedback; el PT visualiza el progreso con datos reales.
+- **Valor entregado:** se cierra el ciclo central del producto (entrenar → registrar → seguir el progreso), el corazón del MVP.
+- **Historias de usuario (10):** HU-11 Ver rutina del día · HU-12 Registrar pesos y cargas en sesión · HU-13 Timer de descanso · HU-14 Asistente IA del alumno en sesión · HU-15 Modo offline para sesiones · HU-16 Historial de entrenamientos · HU-17 Registro de medidas corporales · HU-18 Feedback post-entreno (RPE) · HU-19 Seguimiento de progreso del alumno · HU-20 Notas y comentarios por sesión.
+
+### Milestone 4 — Funcionalidades avanzadas
+
+- **Objetivo (Definition of Done):** el sistema notifica inactividad y modificaciones de rutina, ofrece gamificación, permite coordinar turnos por agenda y centraliza la comunicación con mensajería interna; el producto queda listo para la demo.
+- **Valor entregado:** se suman los componentes de retención y comunicación que potencian la adherencia y la experiencia.
+- **Historias de usuario (4):** HU-21 Alertas de inactividad y modificaciones de rutina · HU-22 Gamificación: logros, rachas y desafíos · HU-23 Agenda y disponibilidad horaria · HU-24 Mensajería interna.
+
+### Resumen de milestones
+
+| Milestone | Fase / etiqueta | HU | Cant. HU | Story points | Objetivo de cierre |
+|-----------|-----------------|----|----------|--------------|---------------------|
+| M1 — Autenticación, invitaciones y gestión de alumnos | Fase 1 | HU-01 a HU-05 | 5 | 26 SP | Alta y vinculación PT ↔ Alumno operativa |
+| M2 — Rutinas, biblioteca e IA del entrenador | Fase 2 | HU-06 a HU-10 | 5 | 34 SP | PT arma y asigna rutinas (con IA) |
+| M3 — Sesiones, tracking e IA del alumno | Fase 3 | HU-11 a HU-20 | 10 | 58 SP | Ciclo entrenar → registrar → seguir |
+| M4 — Funcionalidades avanzadas | Fase 4 | HU-21 a HU-24 | 4 | 23 SP | Retención, gamificación y comunicación |
+| **Total** | — | **HU-01 a HU-24** | **24** | **141 SP** | **MVP listo para demo** |
+
+---
+
+*Documento bajo control de versiones (gestión de la configuración). Entregable **v6.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento + milestones.*
