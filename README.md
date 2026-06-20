@@ -8,7 +8,7 @@ Monorepo con tres clientes/servicios:
 |---------|--------|-------|
 | `backend/` | API REST (monolito modular) | Node.js + Express + Supabase/PostgreSQL |
 | `frontend/` | Dashboard web (ambos roles) | React + Vite + Tailwind *(pendiente)* |
-| `mobile/` | App Android nativa (ambos roles) | Kotlin + Jetpack Compose *(pendiente)* |
+| `mobile/` | App Android nativa (ambos roles) | Kotlin / JAVA *(pendiente)* |
 
 La documentación completa (arquitectura, contratos de API, modelo de datos, plan de
 desarrollo) vive en el tablero de Notion del proyecto.
