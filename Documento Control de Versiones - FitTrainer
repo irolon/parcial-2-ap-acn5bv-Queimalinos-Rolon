@@ -4,7 +4,11 @@
 > **Materia:** Administración de Proyectos — Comisión ACN5BV
 > **Profesor:** Sergio Medina
 > **Integrantes:** Pablo Queimaliños · Ignacio Rolón
+<<<<<<< HEAD
 > **Versión:** v9.0 · **Fecha:** junio 2026
+=======
+> **Versión:** v8.0 · **Fecha:** junio 2026
+>>>>>>> dac4459487f96dfbe31faddf35e3b63be21c75a6
 
 ## Historial de versiones
 
@@ -18,7 +22,10 @@
 | v6.0 | Se definen los milestones del proyecto y las historias de usuario que agrupa cada uno | Equipo |
 | v7.0 | Se estiman los requerimientos (esfuerzo en días-persona) y se asignan plazos sobre el cronograma | Equipo |
 | v8.0 | Se incorpora parte del código del proyecto: backend del MVP (API REST Node.js + Express + Supabase) — arquitectura, estructura, módulos, modelo de datos y endpoints de las Fases 1 y 2 | Equipo |
+<<<<<<< HEAD
 | v9.0 | Se documenta una situación de ajuste de la metodología de trabajo (Kanban): reducción del límite de WIP y división de historias grandes en subtareas, con su análisis Kaizen y métricas | Equipo |
+=======
+>>>>>>> dac4459487f96dfbe31faddf35e3b63be21c75a6
 
 ---
 
@@ -664,4 +671,8 @@ Rol: `—` público · `trainer` / `student` requieren `Authorization: Bearer <t
 
 ---
 
+<<<<<<< HEAD
 *Documento bajo control de versiones (gestión de la configuración). Entregable **v9.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + **ajuste de la metodología (Kaizen)** + análisis de requerimientos (historias de usuario) + tablero de seguimiento + milestones + estimaciones y plazos + código del proyecto (backend del MVP).*
+=======
+*Documento bajo control de versiones (gestión de la configuración). Entregable **v8.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento + milestones + estimaciones y plazos + **código del proyecto (backend del MVP)**.*
+>>>>>>> dac4459487f96dfbe31faddf35e3b63be21c75a6
