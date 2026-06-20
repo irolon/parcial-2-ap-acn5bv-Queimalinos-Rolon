@@ -4,7 +4,7 @@
 > **Materia:** Administración de Proyectos — Comisión ACN5BV
 > **Profesor:** Sergio Medina
 > **Integrantes:** Pablo Queimaliños · Ignacio Rolón
-> **Versión:** v7.0 · **Fecha:** junio 2026
+> **Versión:** v8.0 · **Fecha:** junio 2026
 
 ## Historial de versiones
 
@@ -17,6 +17,7 @@
 | v5.0 | Se crea el tablero de seguimiento (Trello) y se incluye su enlace en el documento | Equipo |
 | v6.0 | Se definen los milestones del proyecto y las historias de usuario que agrupa cada uno | Equipo |
 | v7.0 | Se estiman los requerimientos (esfuerzo en días-persona) y se asignan plazos sobre el cronograma | Equipo |
+| v8.0 | Se incorpora parte del código del proyecto: backend del MVP (API REST Node.js + Express + Supabase) — arquitectura, estructura, módulos, modelo de datos y endpoints de las Fases 1 y 2 | Equipo |
 
 ---
 
@@ -491,4 +492,131 @@ Cada requerimiento (historia de usuario) se estimó para poder planificar el tra
 
 ---
 
-*Documento bajo control de versiones (gestión de la configuración). Entregable **v7.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento + milestones + estimaciones y plazos.*
+## Código del proyecto — Backend (MVP)
+
+En esta versión se incorpora al control de versiones la **primera parte del código del proyecto**: el **backend** de FitTrainer. Se trata de la **API REST** que da servicio tanto al cliente web como al cliente móvil Android, implementando las funcionalidades de las **Fases 1 y 2** del backlog (autenticación, invitaciones, gestión de alumnos, biblioteca de ejercicios y rutinas).
+
+> El código completo vive en la carpeta `backend/` del repositorio. Esta sección documenta su arquitectura y alcance; no reproduce el código línea por línea.
+
+### Stack tecnológico
+
+| Componente | Tecnología | Rol |
+|------------|-----------|-----|
+| Runtime | **Node.js** (≥ 20) | Entorno de ejecución del servidor |
+| Framework | **Express 4** | Servidor HTTP y enrutamiento de la API REST |
+| Base de datos | **Supabase / PostgreSQL** | Persistencia (se accede con la *service role key*) |
+| Autenticación | **JWT** (`jsonwebtoken`) + **bcryptjs** | Access token firmado + hash de contraseñas |
+| Generación de QR | **qrcode** | QR de invitación en base64 (HU-02) |
+| Seguridad / utilidades | **helmet**, **cors**, **morgan**, **dotenv** | Headers de seguridad, CORS, logging y configuración |
+| Testing | **Jest** | Tests unitarios de servicios y modelos |
+| Calidad de código | **ESLint** + **Prettier** | Linting y formateo |
+
+### Arquitectura — Monolito modular en capas
+
+El backend es un **monolito modular** que aplica el patrón **Controller → Service → Repository → Model** en cada módulo. Cada capa solo conoce a la inmediatamente inferior: el *Controller* nunca toca la base de datos.
+
+| Capa | Archivo | Responsabilidad |
+|------|---------|-----------------|
+| **Controller** | `*.controller.js` | Recibe el request, llama al service y responde. Sin lógica de negocio. |
+| **Service** | `*.service.js` | Lógica de negocio, validación de permisos y orquestación. |
+| **Repository** | `*.repository.js` | Queries a Supabase. Única capa que toca la base de datos. |
+| **Model** | `*.model.js` | Entidad de dominio: estructura y mapeo de filas (descarta datos sensibles como el `password_hash`). |
+| **Routes** | `*.routes.js` | Define las rutas y enchufa los middlewares (validación, auth, rol). |
+| **Validation** | `*.validation.js` | Validadores del input de cada módulo. |
+
+**Capa transversal (`shared/`):** cliente de Supabase, middlewares (`authenticate`, `requireRole`, `validate`, manejador central de errores) y utilidades (`errors`, `password` con bcrypt, `jwt`, `qr`, `asyncHandler`).
+
+### Estructura de carpetas
+
+La organización es **por capa**, y dentro de cada capa una **carpeta por módulo** (la capa dice el *qué*; el submódulo, el *de quién*).
+
+```
+backend/
+├── src/
+│   ├── config/env.js                 # carga y validación de variables de entorno
+│   ├── shared/                       # transversal a todos los módulos
+│   │   ├── supabase.js               # cliente Supabase (service role)
+│   │   ├── middlewares/              # authenticate, requireRole, validate, errores
+│   │   └── utils/                    # errors, password, jwt, qr, asyncHandler
+│   ├── controllers/<modulo>/         # capa de entrada HTTP
+│   ├── services/<modulo>/            # lógica de negocio
+│   ├── repositories/<modulo>/        # acceso a datos
+│   ├── models/<modulo>/              # entidades de dominio
+│   ├── validations/<modulo>/         # validadores de input
+│   ├── routes/<modulo>/              # rutas + middlewares
+│   ├── database/
+│   │   ├── schema.sql                # DDL de todas las tablas (Fases 1 y 2)
+│   │   └── seed.sql                  # ejercicios globales iniciales
+│   ├── app.js                        # arma la app de Express y monta las rutas
+│   └── server.js                     # entrypoint (levanta el servidor)
+└── tests/
+    ├── unit/                         # unitarios (servicios y modelos)
+    └── integration/                  # end-to-end de endpoints (pendiente)
+```
+
+### Módulos implementados
+
+| Módulo | Fase | Funcionalidad (HU) |
+|--------|------|--------------------|
+| `health` | — | Health checks de liveness y conectividad con la base de datos |
+| `auth` | Fase 1 | Registro de PT, login (PT/alumno), refresh y logout (HU-01) |
+| `invitations` | Fase 1 | Generación y validación de invitaciones con token, QR y link de WhatsApp (HU-02, HU-03) |
+| `students` | Fase 1/2 | Alta del alumno desde invitación y panel de alumnos del PT (HU-03, HU-04) |
+| `exercises` | Fase 2 | Biblioteca de ejercicios globales y propios del PT (HU-09) |
+| `routines` | Fase 2 | Creación y asignación de rutinas con ejercicios; rutina del día del alumno (HU-06, HU-11) |
+
+### Modelo de datos (schema.sql)
+
+El backend accede con la *service role key* (bypasea RLS) y valida *ownership* y rol en la capa Service. Tablas creadas en esta entrega:
+
+| Tabla | Descripción |
+|-------|-------------|
+| `trainers` | Personal trainers (incluye `password_hash` para login email/password) |
+| `students` | Alumnos vinculados a un PT (perfil físico, objetivo, nivel, equipamiento) |
+| `refresh_tokens` | Refresh tokens revocables; se persiste solo el hash SHA-256, nunca el valor |
+| `invitations` | Invitaciones con token de un solo uso, vencimiento (48 hs) y canal de entrega |
+| `exercises` | Ejercicios globales (`trainer_id` null) o propios del PT, con grupo muscular |
+| `routines` | Rutinas asignadas por un PT a un alumno (objetivo, días de la semana) |
+| `routine_exercises` | Pivote N:M rutina ↔ ejercicio (series, reps, descanso, tempo, orden) |
+
+> **Desvíos respecto del DER original:** se agregaron `password_hash` (credenciales no contempladas), la tabla `refresh_tokens` (revocación de sesión), `invitations.student_email` (lo exige el contrato de API) y se renombró `order` a `order_index` (palabra reservada en SQL). Estos ajustes están documentados en el README del backend para reflejarlos en el DER.
+
+### Endpoints de la API REST
+
+Rol: `—` público · `trainer` / `student` requieren `Authorization: Bearer <token>` con ese rol.
+
+| Método | Ruta | Rol | Descripción |
+|--------|------|-----|-------------|
+| GET | `/health` · `/health/db` | — | Liveness y conectividad con Supabase |
+| POST | `/api/auth/register` | — | Registra un trainer |
+| POST | `/api/auth/login` | — | Login (trainer o alumno; resuelve el rol) |
+| POST | `/api/auth/refresh` | — | Nuevo access token |
+| POST | `/api/auth/logout` | trainer/student | Revoca el refresh token |
+| POST | `/api/invitations` | trainer | Genera invitación (token, `join_url`, QR y/o link de WhatsApp) |
+| GET | `/api/invitations/:token` | — | Valida token y devuelve datos precargados |
+| POST | `/api/students` | — | Alta del alumno desde token de invitación |
+| GET | `/api/students` | trainer | Lista los alumnos del PT (filtros y paginación) |
+| GET | `/api/exercises` | trainer | Biblioteca: ejercicios globales + propios |
+| POST · PATCH · DELETE | `/api/exercises[/:id]` | trainer | Crea / edita / elimina ejercicio propio (solo el dueño) |
+| POST | `/api/routines` | trainer | Crea y asigna una rutina con ejercicios a un alumno |
+| GET | `/api/routines[/:id]` | trainer | Lista rutinas / detalle con sus ejercicios |
+| PATCH | `/api/routines/:id` | trainer | Edita o desactiva una rutina |
+| POST | `/api/routines/:id/exercises` | trainer | Agrega ejercicios a la rutina |
+| GET | `/api/routines/today` | student | Rutina activa del alumno para hoy (HU-11) |
+
+### Seguridad
+
+- **Access token:** JWT firmado con `JWT_SECRET` (`{ sub, role, email }`), con vencimiento configurable (`JWT_EXPIRES_IN`).
+- **Refresh token:** token opaco; en la base de datos se guarda solo su hash SHA-256. El logout lo revoca (operación idempotente).
+- **Contraseñas:** se persisten hasheadas con bcrypt; el modelo descarta el `password_hash` antes de devolver la entidad.
+- **Headers y CORS:** `helmet` para headers de seguridad y `cors` restringido al origen del frontend.
+
+### Testing y calidad
+
+- **Tests unitarios (Jest):** cubren los *services* de los módulos `auth`, `invitations`, `students`, `exercises` y `routines`, más el modelo de `trainer`. Los tests viven fuera de `src/`, en `tests/`, espejando la estructura del código.
+- **Tests de integración:** end-to-end de los endpoints HTTP con Supertest — pendientes (carpeta `tests/integration/` preparada).
+- **Linting y formateo:** ESLint + Prettier, con scripts `npm run lint` y `npm run format`.
+
+---
+
+*Documento bajo control de versiones (gestión de la configuración). Entregable **v8.0** del proyecto: objetivo general (SMART) + análisis de interesados + metodología de trabajo (Kanban) + análisis de requerimientos (historias de usuario) + tablero de seguimiento + milestones + estimaciones y plazos + **código del proyecto (backend del MVP)**.*
