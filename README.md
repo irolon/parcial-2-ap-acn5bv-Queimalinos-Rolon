@@ -13,6 +13,8 @@ Monorepo con tres clientes/servicios:
 La documentación completa (arquitectura, contratos de API, modelo de datos, plan de
 desarrollo) vive en el tablero de Notion del proyecto.
 
+**🔗 Tablero de seguimiento (Trello / Kanban):** https://trello.com/b/OPDghdCH/fittrainer-parcial-2-administraci%C3%B3n-de-proyectos
+
 ## Estado (backend)
 
 - [x] **Fase 1 — Auth:** register, login (trainer y alumno), refresh, logout + middleware JWT/rol.
