@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (NUNCA commitear valores reales)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+mobile/local.properties
+
+# Builds
+dist/
+build/
+*.apk
+*.aab
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Cobertura de tests
+coverage/
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Mobile (Android)
+mobile/.gradle/
+mobile/app/build/
+mobile/local.properties
