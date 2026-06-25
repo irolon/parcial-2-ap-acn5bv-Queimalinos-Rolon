@@ -17,9 +17,6 @@ API REST (monolito modular) en **Node.js + Express**, datos en **Supabase/Postgr
 
 ## Estructura
 
-Organización **por capa**, y dentro de cada capa una **carpeta por módulo**.
-La capa dice el "qué" (controller, service…) y el submódulo dice el "de quién" (auth, …).
-
 Módulos implementados: `health`, `auth`, `invitations`, `students`, `exercises`, `routines`.
 
 ```
@@ -126,18 +123,9 @@ Rol: `—` público · `trainer` / `student` requieren `Authorization: Bearer <t
 - **Access token:** JWT firmado con `JWT_SECRET` (`{ sub, role, email }`), expira según `JWT_EXPIRES_IN`.
 - **Refresh token:** token opaco; en la DB se guarda solo su hash SHA-256. El logout lo revoca.
 
-### Ejemplo
-
-```bash
-curl -X POST http://localhost:3001/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Ignacio","email":"ignacio@fittrainer.app","password":"Password1"}'
-```
-
 ## Notas de implementación (desvíos respecto del DER de Notion)
 
-Estos ajustes fueron necesarios para que el backend funcione; conviene reflejarlos
-en el DER. Todos están aplicados en `src/database/schema.sql`.
+Estos ajustes fueron necesarios para que el backend funcione. Todos están aplicados en `src/database/schema.sql`.
 
 1. **`trainers.password_hash` y `students.password_hash`** — el DER no incluía
    credenciales; el login por email/password las requiere.
@@ -147,4 +135,4 @@ en el DER. Todos están aplicados en `src/database/schema.sql`.
 5. **Enum de `exercises.muscle_group`** — el DER no listaba los valores; se definió el set
    (`chest, back, shoulders, legs, glutes, biceps, triceps, core, calves, full_body, cardio`).
 6. **Expiración de invitaciones: 48 hs** (constante `INVITATION_EXPIRY_HOURS`) — CU-01 y el
-   Plan dicen 48 hs; el DER/ejemplo de contrato mostraban 72 hs. A confirmar.
+   Plan dicen 48 hs; el DER/ejemplo de contrato mostraban 72 hs.
